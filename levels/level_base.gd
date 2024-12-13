@@ -74,7 +74,6 @@ func spawn_items() -> void:
 	for cell in item_cells:
 		var data: TileData = get_items().get_cell_tile_data(cell)
 		var type: String = data.get_custom_data("type")
-		print(type)
 		var item: Node = item_scene.instantiate()
 		add_child(item)
 		item.init(type, get_items().map_to_local(cell))
@@ -86,3 +85,7 @@ func _on_item_picked_up() -> void:
 func set_score(value: int) -> void:
 	score = value
 	score_changed.emit(score)
+
+
+func _on_player_died() -> void:
+	GameState.restart()

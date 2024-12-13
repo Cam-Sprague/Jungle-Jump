@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://jx5mrhj08mhk"]
+[gd_scene load_steps=19 format=3 uid="uid://jx5mrhj08mhk"]
 
 [ext_resource type="Script" path="res://levels/level_base.gd" id="1_xrbrl"]
 [ext_resource type="Texture2D" uid="uid://d4e0jm3yk5g8l" path="res://jungle_jump_assets/assets/environment/back.png" id="2_1xeqq"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b8ddp2tam4oqs" path="res://jungle_jump_assets/assets/cherry_spawn.png" id="4_54osp"]
 [ext_resource type="Texture2D" uid="uid://dyw1tgt3iuyr" path="res://jungle_jump_assets/assets/gem_spawn.png" id="5_1pmfe"]
 [ext_resource type="PackedScene" uid="uid://bcxrq7hlvxb7l" path="res://player/player.tscn" id="6_s2u1g"]
+[ext_resource type="PackedScene" uid="uid://tqh4f7aki5lc" path="res://ui/hud.tscn" id="9_ygjml"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8dgs8"]
 texture = ExtResource("2_vnhl8")
@@ -306,3 +307,11 @@ tile_set = SubResource("TileSet_pss1g")
 [node name="Player" parent="." instance=ExtResource("6_s2u1g")]
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("9_ygjml")]
+
+[connection signal="score_changed" from="." to="CanvasLayer/HUD" method="update_score"]
+[connection signal="died" from="Player" to="." method="_on_player_died"]
+[connection signal="life_changed" from="Player" to="CanvasLayer/HUD" method="update_life"]

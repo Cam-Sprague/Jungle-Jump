@@ -31,9 +31,14 @@ func change_state(new_state: int):
 			$AnimationPlayer.play("hurt")
 			velocity.y = -200
 			velocity.x = -100 * sign(velocity.x)
-			life -= 1
+			
 			await get_tree().create_timer(0.5).timeout
-			change_state(IDLE)
+			
+			life -= 1
+			if life > 0:
+				change_state(IDLE)
+			else:
+				change_state(DEAD)
 		JUMP:
 			$AnimationPlayer.play("jump_up")
 		DEAD:
@@ -83,6 +88,13 @@ func _physics_process(delta: float):
 		var collider: Object = collision.get_collider()
 		if collider.is_in_group("danger"):
 			hurt()
+		
+		if collider.is_in_group("enemies"):
+			if position.y < collider.position.y:
+				collider.take_damage()
+				velocity.y = -200
+			else:
+				hurt()
 	
 	if state == JUMP and is_on_floor():
 		change_state(IDLE)

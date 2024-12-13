@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=4 uid="uid://ctra7kvr0f36a"]
+[gd_scene load_steps=3 format=4 uid="uid://db28divc3k0uk"]
 
-[ext_resource type="PackedScene" uid="uid://jx5mrhj08mhk" path="res://levels/level_base.tscn" id="1_h4dh4"]
-[ext_resource type="PackedScene" uid="uid://bqurk4tempy7m" path="res://enemies/enemy.tscn" id="2_etl2u"]
+[ext_resource type="PackedScene" uid="uid://jx5mrhj08mhk" path="res://levels/level_base.tscn" id="1_es63l"]
+[ext_resource type="PackedScene" uid="uid://bqurk4tempy7m" path="res://enemies/enemy.tscn" id="2_dprhk"]
 
-[node name="Level101" instance=ExtResource("1_h4dh4")]
+[node name="Level101" instance=ExtResource("1_es63l")]
 
 [node name="TML_World" parent="." index="1"]
 position = Vector2(0, 1)
@@ -21,5 +21,5 @@ position = Vector2(-288, -8)
 [node name="SpawnPoint" parent="." index="5"]
 position = Vector2(-288, -24)
 
-[node name="Enemy" parent="." index="6" instance=ExtResource("2_etl2u")]
+[node name="Enemy" parent="." index="6" instance=ExtResource("2_dprhk")]
 position = Vector2(-648, -240)
