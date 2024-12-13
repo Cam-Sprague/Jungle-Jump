@@ -75,6 +75,15 @@ func _physics_process(delta: float):
 	#Update the player
 	move_and_slide()
 	
+	if state == HURT:
+		return
+		
+	for i in range(get_slide_collision_count()):
+		var collision: KinematicCollision2D = get_slide_collision(i)
+		var collider: Object = collision.get_collider()
+		if collider.is_in_group("danger"):
+			hurt()
+	
 	if state == JUMP and is_on_floor():
 		change_state(IDLE)
 		
@@ -90,3 +99,4 @@ func reset(_position: Vector2):
 func hurt():
 	if state != HURT:
 		change_state(HURT)
+		
