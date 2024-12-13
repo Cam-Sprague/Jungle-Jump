@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://cvyqq6y5ek2ch"]
+
+[ext_resource type="Script" path="res://item/item.gd" id="1_gqety"]
+[ext_resource type="Texture2D" uid="uid://c3w4k28a21uli" path="res://jungle_jump_assets/assets/sprites/gem.png" id="2_0xab7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ojujl"]
+
+[sub_resource type="Animation" id="Animation_w7y1i"]
+resource_name = "cherry"
+length = 1.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.8, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [4, 1]
+}
+
+[sub_resource type="Animation" id="Animation_ndl55"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rix2w"]
+_data = {
+"RESET": SubResource("Animation_ndl55"),
+"cherry": SubResource("Animation_w7y1i")
+}
+
+[node name="Item" type="Area2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_gqety")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0xab7")
+hframes = 5
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ojujl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_rix2w")
+}
+autoplay = "cherry"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
