@@ -10,6 +10,7 @@ var _camera_2d: Camera2D = null
 signal score_changed
 
 var item_scene: PackedScene = load("res://item/item.tscn")
+var door_scene: PackedScene = load("res://item/door.tscn")
 
 var score: int: set = set_score
 
@@ -18,6 +19,8 @@ func _ready():
 	get_player().reset(get_spawn_point().position)
 	set_camera_limits()
 	spawn_items()
+	$GrasslandsMusic.play()
+	
 	
 func get_items() -> TileMapLayer:
 	if _items == null:
@@ -74,13 +77,20 @@ func spawn_items() -> void:
 	for cell in item_cells:
 		var data: TileData = get_items().get_cell_tile_data(cell)
 		var type: String = data.get_custom_data("type")
-		var item: Node = item_scene.instantiate()
-		add_child(item)
-		item.init(type, get_items().map_to_local(cell))
-		item.picked_up.connect(self._on_item_picked_up)
+		if type == "door":
+			var door: Node = door_scene.instantiate()
+			add_child(door)
+			door.position = get_items().map_to_local(cell)
+			door.body_entered.connect(_on_door_entered)
+		else:
+			var item: Node = item_scene.instantiate()
+			add_child(item)
+			item.init(type, get_items().map_to_local(cell))
+			item.picked_up.connect(self._on_item_picked_up)
 		
 func _on_item_picked_up() -> void:
 	score += 1
+	$PickupSound.play()
 	
 func set_score(value: int) -> void:
 	score = value
@@ -89,3 +99,6 @@ func set_score(value: int) -> void:
 
 func _on_player_died() -> void:
 	GameState.restart()
+	
+func _on_door_entered(_body) -> void:
+	GameState.next_level()

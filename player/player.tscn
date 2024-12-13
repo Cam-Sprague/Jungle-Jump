@@ -1,7 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://bcxrq7hlvxb7l"]
+[gd_scene load_steps=16 format=3 uid="uid://bcxrq7hlvxb7l"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_mpv6b"]
 [ext_resource type="Texture2D" uid="uid://dwnvwqhmr8n6h" path="res://jungle_jump_assets/assets/player_sheet.png" id="2_pduei"]
+[ext_resource type="AudioStream" uid="uid://5mrarfgq0etj" path="res://jungle_jump_assets/assets/audio/jump4.ogg" id="3_83ehc"]
+[ext_resource type="AudioStream" uid="uid://bxrve4bloysiv" path="res://jungle_jump_assets/assets/audio/hurt1.ogg" id="4_y43or"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oplpg"]
 size = Vector2(9, 20)
@@ -150,6 +152,10 @@ _data = {
 "run": SubResource("Animation_61t6c")
 }
 
+[sub_resource type="Gradient" id="Gradient_psd18"]
+offsets = PackedFloat32Array(0, 0.970297)
+colors = PackedColorArray(0.603922, 0.482353, 0.309804, 1, 0.603922, 0.482353, 0.309804, 0)
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 13
@@ -175,3 +181,25 @@ root_node = NodePath("../Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_pv7fc")
 }
+
+[node name="Dust" type="CPUParticles2D" parent="."]
+position = Vector2(-2, 0)
+rotation = 1.5708
+emitting = false
+amount = 20
+lifetime = 0.45
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.7
+emission_shape = 3
+emission_rect_extents = Vector2(1, 6)
+initial_velocity_max = 10.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_psd18")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_83ehc")
+volume_db = -15.0
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_y43or")

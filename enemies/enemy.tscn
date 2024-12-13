@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqurk4tempy7m"]
+[gd_scene load_steps=10 format=3 uid="uid://bqurk4tempy7m"]
 
 [ext_resource type="Script" path="res://enemies/enemy.gd" id="1_mjro4"]
 [ext_resource type="Texture2D" uid="uid://c0mmlq666qa6t" path="res://jungle_jump_assets/assets/sprites/opossum.png" id="2_4svce"]
 [ext_resource type="Texture2D" uid="uid://bcjybxl7i2kar" path="res://jungle_jump_assets/assets/sprites/enemy-death.png" id="3_y7vky"]
+[ext_resource type="AudioStream" uid="uid://bsjj7e2e6hl8u" path="res://jungle_jump_assets/assets/audio/enemy_hit.ogg" id="4_e1o0x"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42qpi"]
 size = Vector2(23, 17)
@@ -118,5 +119,9 @@ libraries = {
 "": SubResource("AnimationLibrary_o68py")
 }
 autoplay = "walk"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_e1o0x")
+volume_db = -10.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

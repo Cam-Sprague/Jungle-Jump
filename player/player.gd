@@ -13,6 +13,12 @@ signal died
 @export var gravity: float = 750
 @export var run_speed: float = 150
 @export var jump_speed: float = -300
+@export var max_jumps: int = 2
+@export var double_jump_factor: float = 1.5
+
+var _dust: CPUParticles2D = null
+
+var jump_count: int = 0
 
 enum {IDLE, RUN, JUMP, HURT, DEAD}
 var state: int = IDLE
@@ -41,6 +47,7 @@ func change_state(new_state: int):
 				change_state(DEAD)
 		JUMP:
 			$AnimationPlayer.play("jump_up")
+			jump_count = 1
 		DEAD:
 			died.emit()
 			hide()
@@ -52,16 +59,24 @@ func get_input():
 	if state == HURT:
 		return
 	var jump: bool = Input.is_action_just_pressed("jump")
-	
 	velocity.x = 0
+	
 	if right:
 		velocity.x += run_speed
 		$Sprite2D.flip_h = false
+		
 	if left:
 		velocity.x -= run_speed
 		$Sprite2D.flip_h = true
+		
+	if jump and state == JUMP and jump_count < max_jumps and jump_count > 0:
+		$AnimationPlayer.play("jump_up")
+		velocity.y = jump_speed / double_jump_factor
+		jump_count += 1
+		
 	if jump and is_on_floor():
 		change_state(JUMP)
+		$JumpSound.play()
 		velocity.y = jump_speed
 		
 	if state == IDLE and velocity.x !=0:
@@ -98,6 +113,8 @@ func _physics_process(delta: float):
 	
 	if state == JUMP and is_on_floor():
 		change_state(IDLE)
+		jump_count = 0
+		get_dust().emitting = true
 		
 	if state == JUMP and velocity.y > 0:
 		$AnimationPlayer.play("jump_down")
@@ -110,5 +127,11 @@ func reset(_position: Vector2):
 	
 func hurt():
 	if state != HURT:
+		$HurtSound.play()
 		change_state(HURT)
 		
+		
+func get_dust() -> CPUParticles2D:
+	if _dust == null:
+		_dust = $Dust
+	return _dust

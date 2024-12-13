@@ -46,6 +46,7 @@ func _physics_process(delta: float) -> void:
 		
 func take_damage() -> void:
 	get_animation_player().play("death")
+	$HitSound.play()
 	get_collision_shape().set_deferred("disabled", true)
 	set_physics_process(false)
 	
