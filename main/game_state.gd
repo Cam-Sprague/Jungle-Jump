@@ -1,6 +1,6 @@
 extends Node
 
-var num_levels: int = 1
+var num_levels: int = 2
 var current_level: int = 0
 var game_scene: String = "res://main/main.tscn"
 var title_screen: String = "res://ui/title_screen.tscn"
